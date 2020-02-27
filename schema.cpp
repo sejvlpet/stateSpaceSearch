@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -43,6 +44,7 @@ public:
 	STATES _state = UNITILISED;
 	Cord _position;
 	Cord _accessedFrom;
+	int _distanceFromStart;
 
 
 	void print() { // todo refactor using << overload
@@ -114,6 +116,8 @@ public:
 		}
 
 		_maze[_start._y][_start._x]._state = START; 
+		_maze[_start._y][_start._x]._distanceFromStart = 0;
+
 		_maze[_end._y][_end._x]._state = END;
 
 	}
@@ -140,8 +144,9 @@ public:
 			end = _maze[y][x]._accessedFrom;
 			length++;
 		}
-		printw("Press q to quit");
 		drawMaze();
+		printw("Nodes expanded: %d, Nodes closed %d, path length: %d\n", opened, closed, length);
+		printw("Press q to quit");
 	}
 
 	std::vector<Cord> getNexMoves(const Cord &c) const {
