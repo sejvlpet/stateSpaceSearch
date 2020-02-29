@@ -4,6 +4,7 @@
 #include "dfs.cpp"
 #include "dijkstra.cpp"
 #include "a_star.cpp"
+#include "greedy.cpp"
 
 #include <iostream>
 #include <vector>
@@ -15,10 +16,11 @@ const int BFS = 1;
 const int DFS = 2;
 const int DIJKSTRA = 3;
 const int A_STAR = 4;
+const int GREEDY = 5;
 
 int main(int argc, char *argv[]) {
 	int alg;
-	std::cout  << "Choose your algoritm - 1 for bfs, 2 for dfs, 3 for Dijkstra, 4 for A*\n";
+	std::cout  << "Choose your algoritm - 1 for bfs, 2 for dfs, 3 for Dijkstra, 4 for A*, 5 for Greedy.\n";
 	std::cin >> alg;
     std::ifstream ifstream = std::ifstream(argv[1]);
 
@@ -32,7 +34,8 @@ int main(int argc, char *argv[]) {
 	DfsSolver dfs;
 	DijkstraSolver d;
 	AstarSolver aStar;
-	
+	GreedySolver g;
+
 	// todo refactor
 	if (alg == BFS) {
 		bfs.solve(maze);
@@ -50,9 +53,12 @@ int main(int argc, char *argv[]) {
 		aStar.solve(maze);
 		opened = aStar._nodesOpened;
 		closed = aStar._nodesClosed;
-		// todo
+	} else if (alg == GREEDY) {
+		g.solve(maze);
+		opened = g._nodesOpened;
+		closed = g._nodesClosed;
 	}
-	
+
 	int input;
 	maze.printFinal(opened, closed);		
     while((input = getch()) != 'q') {}

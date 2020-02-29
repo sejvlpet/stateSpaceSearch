@@ -46,7 +46,7 @@ public:
 	STATES _state = UNITILISED;
 	Cord _position;
 	Cord _accessedFrom;
-	int _distanceFromStart;
+	int _distanceFromStart = 0; // default 0 for algorithms not using it
 	int _minPossibleToEnd = 0; // default 0 for algorithms not using it
 
 	void print() { // todo refactor using << overload
