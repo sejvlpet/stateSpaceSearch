@@ -32,20 +32,22 @@ public:
     Cord() = default;
     Cord(int x, int y) : _x(x), _y(y) {}
 
-	bool operator == (const Cord& other) const { // todo test
+	bool operator == (const Cord& other) const {
         return _x == other._x && _y == other._y;
+    }
+    int operator - (const Cord& other) const {
+        return abs(_x - other._x) + abs(_y - other._y);
     }
 };
 
 
 class Cell {
-
 public:
 	STATES _state = UNITILISED;
 	Cord _position;
 	Cord _accessedFrom;
 	int _distanceFromStart;
-
+	int _minPossibleToEnd = 0; // default 0 for algorithms not using it
 
 	void print() { // todo refactor using << overload
 		if (_state == WALL) addch(WALL_CHAR | COLOR_PAIR(BLUE_PAIR));
@@ -67,9 +69,24 @@ public:
 	void setAncesor(Cord c) {
 		_accessedFrom = c;
 	}
+	void setMinimunToEnd(Cord end) {
+		_minPossibleToEnd = _position - end;		
+	}
+
+	bool operator > (const Cell &other) const {
+		// TODO - is this ok? This condition should place heuristic as second option
+		if ((_distanceFromStart + _minPossibleToEnd) ==  (other._distanceFromStart + other._minPossibleToEnd)) return _distanceFromStart > other._distanceFromStart;
+        return (_distanceFromStart + _minPossibleToEnd) > (other._distanceFromStart + other._minPossibleToEnd);
+    }
 
 };
 
+// todo most likely this should be possible to implement as overload of > in cell class and than used in priorityQueue as default
+struct CompareCells { 
+    bool operator()(Cell const& c1, Cell const& c2) { 
+        return c1 > c2; 
+    } 
+};
 
 class Maze {
 public:
@@ -131,7 +148,7 @@ public:
 			}
 			addch('\n');
 		}
-     	getch();
+     	// getch();
 	}
 
 	void printFinal(int opened, int closed) {
@@ -145,7 +162,7 @@ public:
 			length++;
 		}
 		drawMaze();
-		printw("Nodes expanded: %d, Nodes closed %d, path length: %d\n", opened, closed, length);
+		printw("Nodes opened: %d, Nodes closed %d, path length: %d\n", opened, closed, length);
 		printw("Press q to quit");
 	}
 

@@ -4,7 +4,7 @@
 #include <bits/stdc++.h> 
 #include <sstream>
 
-class DijkstraSolver {
+class AstarSolver {
 public:
 	std::priority_queue<Cell, std::vector<Cell>, CompareCells> _next;
 	int _nodesOpened = 0;
@@ -54,6 +54,7 @@ private:
 
 			maze._maze[y][x].changeState(OPENED); // todo should be really opened here?
 			maze._maze[y][x]._distanceFromStart = dist;
+			maze._maze[y][x].setMinimunToEnd(maze._end);
 			maze._maze[y][x].setAncesor(from);
 
 			_nodesOpened++;
@@ -62,21 +63,3 @@ private:
 		}
 	}
 };
-
-
-
-// int main(int argc, char *argv[]) {
-//     std::ifstream ifstream = std::ifstream(argv[1]);
-
-// 	Maze maze;
-// 	maze.readInput(ifstream);
-	
-// 	DijkstraSolver d;
-// 	d.solve(maze);
-	
-// 	int input;
-// 	maze.printFinal(d._nodesOpened, d._nodesClosed);		
-//     while((input = getch()) != 'q') {}
-
-// 	return 0;
-// }

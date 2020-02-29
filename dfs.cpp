@@ -1,5 +1,3 @@
-#include "schema.cpp"
-
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -61,17 +59,17 @@ private:
 
 
 
-int main(int argc, char *argv[]) {
-    std::ifstream ifstream = std::ifstream(argv[1]);
+// int main(int argc, char *argv[]) {
+//     std::ifstream ifstream = std::ifstream(argv[1]);
 
-	Maze maze;
-	maze.readInput(ifstream);
+// 	Maze maze;
+// 	maze.readInput(ifstream);
 	
-	DfsSolver dfs;
-	dfs.solve(maze);
+// 	DfsSolver dfs;
+// 	dfs.solve(maze);
 
-	int input;
-	maze.printFinal(dfs._nodesOpened,dfs._nodesClosed);		
-    while((input = getch()) != 'q') {}
-	return 0;
-}
+// 	int input;
+// 	maze.printFinal(dfs._nodesOpened,dfs._nodesClosed);		
+//     while((input = getch()) != 'q') {}
+// 	return 0;
+// }
