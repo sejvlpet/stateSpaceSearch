@@ -1,3 +1,10 @@
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <bits/stdc++.h> 
+#include <sstream>
+#include <curses.h>
+
 #include "schema.cpp"
 
 #include "bfs.cpp"
@@ -6,12 +13,6 @@
 #include "a_star.cpp"
 #include "greedy.cpp"
 #include "random.cpp"
-
-#include <iostream>
-#include <vector>
-#include <sstream>
-#include <bits/stdc++.h> 
-#include <sstream>
 
 const int BFS = 1;
 const int DFS = 2;
@@ -22,7 +23,7 @@ const int RANDOM = 6;
 
 int main(int argc, char *argv[]) {
 	int alg;
-	std::cout  << "Choose your algoritm - 1 for bfs, 2 for dfs, 3 for Dijkstra, 4 for A*, 5 for Greedy or 6 for random search.\n";
+	std::cout << "Choose your algoritm - 1 for bfs, 2 for dfs, 3 for Dijkstra, 4 for A*, 5 for Greedy or 6 for random search.\n";
 	std::cin >> alg;
     std::ifstream ifstream = std::ifstream(argv[1]);
 
@@ -39,7 +40,6 @@ int main(int argc, char *argv[]) {
 	GreedySolver g;
 	RandomSolver r;
 
-	// todo refactor
 	if (alg == BFS) {
 		bfs.solve(maze);
 		opened = bfs._nodesOpened;

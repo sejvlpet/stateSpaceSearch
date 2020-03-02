@@ -1,10 +1,4 @@
 
-#include <iostream>
-#include <vector>
-#include <sstream>
-#include <stdlib.h>
-#include <curses.h>
-
 enum STATES {
 	WALL, UNATTENDED, OPENED, CLOSED, START, END, ERROR, UNITILISED, FINAL
 };
@@ -136,7 +130,6 @@ public:
 		_maze[_start._y][_start._x]._distanceFromStart = 0;
 
 		_maze[_end._y][_end._x]._state = END;
-
 	}
 
 	void drawMaze() {
@@ -148,7 +141,7 @@ public:
 			}
 			addch('\n');
 		}
-     	// getch();
+     	// getch(); // uncoment to pause program after every draw
 	}
 
 	void printFinal(int opened, int closed) {
@@ -162,7 +155,11 @@ public:
 			length++;
 		}
 		drawMaze();
-		printw("Nodes opened: %d, Nodes closed %d, path length: %d\n", opened, closed, length);
+		printw("---------------------------------------------\n");
+		printw("%c Start \n%c End \n%c Opened node \n%c Path \n%c Wall \nspace Fresh node\n", START_CHAR, END_CHAR, OPENED_CHAR, FINAL_CHAR, WALL_CHAR);
+		printw("---------------------------------------------\n");
+		printw("Nodes expanded: %d\nPath length: %d\n", opened + closed, length);
+		printw("---------------------------------------------\n");
 		printw("Press q to quit");
 	}
 

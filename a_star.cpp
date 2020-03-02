@@ -1,8 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <sstream>
-#include <bits/stdc++.h> 
-#include <sstream>
 
 class AstarSolver {
 public:
@@ -11,9 +6,8 @@ public:
 	int _nodesClosed = 0;
 
 
-	// todo maze reference could be memeber of dfs
 	void solve(Maze &maze) {
-		if (maze._start == maze._end) { // we've reachend the end, print and do something like that
+		if (maze._start == maze._end) {
 			return;
 		}
 
@@ -22,18 +16,18 @@ public:
 
 		while(!_next.empty()) {
 
-			Cell c = _next.top(); // recieve cords of next element
-			_next.pop(); // remove it from stack as it's useles now
+			Cell c = _next.top();
+			_next.pop();
 			int x = c._position._x;
 			int y = c._position._y;
 
-			if (c._position == maze._end) { // we've reachend the end, print and do something like that
+			if (c._position == maze._end) {
 				return;
 			}
 			
 			std::vector<Cord> neighbors = maze.getNexMoves(c._position);
 			addAndOpenNeighbors(neighbors, c._position, maze);
-			maze._maze[y][x].changeState(CLOSED); // todo I'm really not sure bout that
+			maze._maze[y][x].changeState(CLOSED);
 			_nodesClosed++;
 			_nodesOpened--;
 
@@ -42,9 +36,7 @@ public:
 	}
 
 
-
 private:
-	// places neighbors to queue, set information from where they were found
 	void addAndOpenNeighbors(const std::vector<Cord> &neighbors, const Cord &from, Maze &maze) {
 		int dist = maze._maze[from._y][from._x]._distanceFromStart + 1;
 		for(int i = 0; i < (int) neighbors.size(); ++i) {
@@ -52,7 +44,7 @@ private:
 			int x = neighbors[i]._x;
 			int y = neighbors[i]._y;
 
-			maze._maze[y][x].changeState(OPENED); // todo should be really opened here?
+			maze._maze[y][x].changeState(OPENED);
 			maze._maze[y][x]._distanceFromStart = dist;
 			maze._maze[y][x].setMinimunToEnd(maze._end);
 			maze._maze[y][x].setAncesor(from);

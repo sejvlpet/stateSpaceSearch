@@ -1,8 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <sstream>
-#include <bits/stdc++.h> 
-#include <sstream>
 
 class DfsSolver {
 public:
@@ -11,9 +6,8 @@ public:
 	int _nodesClosed = 0;
 
 
-	// todo maze reference could be memeber of dfs
 	void solve(Maze &maze) {
-		if (maze._start == maze._end) { // we've reachend the end, print and do something like that
+		if (maze._start == maze._end) {
 			return;
 		}
 
@@ -22,33 +16,31 @@ public:
 
 		while(!_next.empty()) {
 
-			Cord c = _next.top(); // recieve cords of next element
-			_next.pop(); // remove it from stack as it's useles now
+			Cord c = _next.top();
+			_next.pop();
 			int x = c._x;
 			int y = c._y;
 
-			if (c == maze._end) { // we've reachend the end, print and do something like that
+			if (c == maze._end) {
 				return;
 			}
 
 			std::vector<Cord> neighbors = maze.getNexMoves(c);
 			addAndOpenNeighbors(neighbors, c, maze);
-			maze._maze[y][x].changeState(CLOSED); // todo I'm really not sure bout that
+			maze._maze[y][x].changeState(CLOSED);
 			_nodesClosed++;
-
+			_nodesOpened--;
+			
 			maze.drawMaze();
     	}
 	}
 
-
-
 private:
-	// places neighbors to stack, set information from where they were found
 	void addAndOpenNeighbors(const std::vector<Cord> &neighbors, const Cord &from, Maze &maze) {
 		for(int i = 0; i < (int) neighbors.size(); ++i) {
 			int x = neighbors[i]._x;
 			int y = neighbors[i]._y;
-			maze._maze[y][x].changeState(OPENED); // todo should be really opened here?
+			maze._maze[y][x].changeState(OPENED);
 			_nodesOpened++;
 			maze._maze[y][x].setAncesor(from);
 
@@ -56,20 +48,3 @@ private:
 		}
 	}
 };
-
-
-
-// int main(int argc, char *argv[]) {
-//     std::ifstream ifstream = std::ifstream(argv[1]);
-
-// 	Maze maze;
-// 	maze.readInput(ifstream);
-	
-// 	DfsSolver dfs;
-// 	dfs.solve(maze);
-
-// 	int input;
-// 	maze.printFinal(dfs._nodesOpened,dfs._nodesClosed);		
-//     while((input = getch()) != 'q') {}
-// 	return 0;
-// }
