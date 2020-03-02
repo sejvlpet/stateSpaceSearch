@@ -39,6 +39,8 @@ private:
 
 	void resize() {
 		std::vector<Cord> newCords;
+		newCords.reserve( (int) _cords.size() / 2);
+
 		for(int i = _start - 1; i < (int) _cords.size(); ++i) {
 			newCords.push_back(_cords[i]);
 		}
