@@ -1,6 +1,6 @@
 
 enum STATES {
-	WALL, UNATTENDED, OPENED, CLOSED, START, END, ERROR, UNITILISED, FINAL
+	WALL, UNATTENDED, OPENED, CLOSED, START, END, ERROR, UNITILISED, FINAL, IN_PRORITY_QUEUE
 };
 
 enum COLOR_PAIR {
@@ -46,7 +46,7 @@ public:
 	void print() { // todo refactor using << overload
 		if (_state == WALL) addch(WALL_CHAR | COLOR_PAIR(BLUE_PAIR));
 		if (_state == UNATTENDED) addch(UNATTENDED_CHAR | COLOR_PAIR(BLUE_PAIR));
-		if (_state == OPENED) addch(OPENED_CHAR | COLOR_PAIR(GREEN_PAIR));
+		if (_state == OPENED || _state == IN_PRORITY_QUEUE) addch(OPENED_CHAR | COLOR_PAIR(GREEN_PAIR));
 		if (_state == CLOSED) addch(CLOSED_CHAR | COLOR_PAIR(YELLOW_PAIR));
 		if (_state == START) addch(START_CHAR | COLOR_PAIR(RED_PAIR));
 		if (_state == END) addch(END_CHAR | COLOR_PAIR(RED_PAIR));
@@ -54,7 +54,10 @@ public:
 	}
 
 	bool isToVisit() const {
-		return _state == UNATTENDED || _state == END;
+		return _state == UNATTENDED || _state == END || _state == IN_PRORITY_QUEUE;
+	}
+	int getMinimunToEnd(const Cord &end) const {
+		return  _position - end;
 	}
 
 	void changeState(STATES state) {
@@ -63,7 +66,7 @@ public:
 	void setAncesor(Cord c) {
 		_accessedFrom = c;
 	}
-	void setMinimunToEnd(Cord end) {
+	void setMinimunToEnd(const Cord &end) {
 		_minPossibleToEnd = _position - end;		
 	}
 

@@ -20,15 +20,12 @@ public:
 			int x = c._position._x;
 			int y = c._position._y;
 
-			if (c._position == maze._end) {
-				return;
-			}
-			
+			if (c._position == maze._end) return;
+			if (maze._maze[y][x]._state == CLOSED) continue; // node can be in pq, but already closed, this happens if first found path wasn't the shortest
+
 			std::vector<Cord> neighbors = maze.getNexMoves(c._position);
 			addAndOpenNeighbors(neighbors, c._position, maze);
 			maze._maze[y][x].changeState(CLOSED);
-			_nodesClosed++;
-			_nodesOpened--;
 
 			maze.drawMaze();
 		}
@@ -43,11 +40,12 @@ private:
 			int x = neighbors[i]._x;
 			int y = neighbors[i]._y;
 
-			maze._maze[y][x].changeState(OPENED);
+			if(maze._maze[y][x]._state == IN_PRORITY_QUEUE && maze._maze[y][x].getMinimunToEnd(maze._end) >= maze._maze[y][x]._minPossibleToEnd) continue; 
+			if(maze._maze[y][x]._state != IN_PRORITY_QUEUE) _nodesOpened++;
+
+			maze._maze[y][x].changeState(IN_PRORITY_QUEUE);
 			maze._maze[y][x].setMinimunToEnd(maze._end);
 			maze._maze[y][x].setAncesor(from);
-
-			_nodesOpened++;
 
 			_next.push(maze._maze[y][x]);
 		}
