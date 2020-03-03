@@ -62,7 +62,5 @@ private:
 
 		if(newSumDist == originalSumDist) return dist >= maze._maze[y][x]._distanceFromStart;
 		return newSumDist >= originalSumDist;
-
-		return false;
 	}
 };
