@@ -1,6 +1,6 @@
 
 enum STATES {
-	WALL, UNATTENDED, OPENED, CLOSED, START, END, ERROR, UNITILISED, FINAL, IN_PRORITY_QUEUE
+	WALL, UNATTENDED, OPENED, CLOSED, START, END, ERROR, FINAL, IN_PRORITY_QUEUE
 };
 
 enum COLOR_PAIR {
@@ -37,7 +37,7 @@ public:
 
 class Cell {
 public:
-	STATES _state = UNITILISED;
+	STATES _state = UNATTENDED;
 	Cord _position;
 	Cord _accessedFrom;
 	int _distanceFromStart = 0; // default 0 for algorithms not using it
