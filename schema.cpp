@@ -137,7 +137,7 @@ public:
 
 	void drawMaze() {
 		move(0,0);
-   	 	refresh();
+  		refresh();
 		for(int i = 0; i <  (int) _maze.size(); ++i) {
 			for(int j = 0; j <  (int) _maze[i].size(); ++j) {
 				_maze[i][j].print();

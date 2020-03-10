@@ -25,6 +25,12 @@ int main(int argc, char *argv[]) {
 	int alg;
 	std::cout << "Choose your algoritm - 1 for bfs, 2 for dfs, 3 for Dijkstra, 4 for A*, 5 for Greedy or 6 for random search.\n";
 	std::cin >> alg;
+
+	if(alg > RANDOM || alg < BFS) {
+		std::cout << "You've entered wrong number" << std::endl;
+		return 1;		
+	}
+
     std::ifstream ifstream = std::ifstream(argv[1]);
 
 	Maze maze;
