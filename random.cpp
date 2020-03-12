@@ -27,7 +27,7 @@ public:
 	}
 
 	bool empty() {
-		return _cords.size() <= 0;
+		return _open <= 0;
 	}
 
 private:
@@ -55,13 +55,13 @@ class RandomSolver {
 public:
 	RandomCordContainer _next;
 	int _nodesOpened = 0;
-	int _nodesClosed = 0;
 
-	void solve(Maze &maze) {
+	bool solve(Maze &maze) {
 		if (maze._start == maze._end) {
-			return;
+			return true;
 		}
 
+		_nodesOpened += 1; // for opening of of the start
 		std::vector<Cord> neighbors = maze.getNexMoves(maze._start);
 		addAndOpenNeighbors(neighbors, maze._start, maze);
 
@@ -74,17 +74,17 @@ public:
 			int y = c._y;
 
 			if (c == maze._end) {
-				return;
+				return true;
 			}
 			
 			std::vector<Cord> neighbors = maze.getNexMoves(c);
 			addAndOpenNeighbors(neighbors, c, maze);
 			maze._maze[y][x].changeState(CLOSED);
-			_nodesClosed++;
-			_nodesOpened--;
 
 			maze.drawMaze();
 		}
+		
+		return false;
 	}
 
 
@@ -95,7 +95,7 @@ private:
 			int x = neighbors[i]._x;
 			int y = neighbors[i]._y;
 			maze._maze[y][x].changeState(OPENED); 
-			_nodesOpened++;
+			if (maze._maze[y][x]._state != END) _nodesOpened++;
 			maze._maze[y][x].setAncesor(from);
 
 			_next.push(neighbors[i]);

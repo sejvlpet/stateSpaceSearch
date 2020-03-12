@@ -23,7 +23,7 @@ const int RANDOM = 6;
 
 int main(int argc, char *argv[]) {
 	int alg;
-	std::cout << "Choose your algoritm - 1 for bfs, 2 for dfs, 3 for Dijkstra, 4 for A*, 5 for Greedy or 6 for random search.\n";
+	std::cout << "Choose your algorithm - 1 for bfs, 2 for dfs, 3 for Dijkstra, 4 for A*, 5 for Greedy or 6 for random search.\n";
 	std::cin >> alg;
 
 	if(alg > RANDOM || alg < BFS) {
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 	maze.readInput(ifstream);
 
 	int opened = 0;
-	int closed = 0;
+	bool res = false;
 
 	BfsSolver bfs;
 	DfsSolver dfs;
@@ -47,34 +47,32 @@ int main(int argc, char *argv[]) {
 	RandomSolver r;
 
 	if (alg == BFS) {
-		bfs.solve(maze);
+		res = bfs.solve(maze);
 		opened = bfs._nodesOpened;
-		closed = bfs._nodesClosed;
 	} else if (alg == DFS) {
-		dfs.solve(maze);
+		res = dfs.solve(maze);
 		opened = dfs._nodesOpened;
-		closed = dfs._nodesClosed;
 	} else if (alg == DIJKSTRA) {
-		d.solve(maze);
+		res = d.solve(maze);
 		opened = d._nodesOpened;
-		closed = d._nodesClosed;
 	} else if (alg == A_STAR) {
-		aStar.solve(maze);
+		res = aStar.solve(maze);
 		opened = aStar._nodesOpened;
-		closed = aStar._nodesClosed;
 	} else if (alg == GREEDY) {
-		g.solve(maze);
+		res = g.solve(maze);
 		opened = g._nodesOpened;
-		closed = g._nodesClosed;
 	} else if (alg == RANDOM) {
-		r.solve(maze);
+		res = r.solve(maze);
 		opened = r._nodesOpened;
-		closed = r._nodesClosed;
 	}
 
 	int input;
-	maze.printFinal(opened, closed);		
-    while((input = getch()) != 'q') {}
-
+	if(res) {
+		maze.printFinal(opened);		
+	    while((input = getch()) != 'q') {}
+	} else {
+		printw("Algoritm hasn't reached the end, press q to quit");
+		while((input = getch()) != 'q') {}
+	}
 	return 0;
 }

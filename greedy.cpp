@@ -3,13 +3,13 @@ class GreedySolver {
 public:
 	std::priority_queue<Cell, std::vector<Cell>, CompareCells> _next;
 	int _nodesOpened = 0;
-	int _nodesClosed = 0;
 
-	void solve(Maze &maze) {
+	bool solve(Maze &maze) {
 		if (maze._start == maze._end) {
-			return;
+			 return true;
 		}
 
+		_nodesOpened += 1; // for opening of of the start
 		std::vector<Cord> neighbors = maze.getNexMoves(maze._start);
 		addAndOpenNeighbors(neighbors, maze._start, maze);
 
@@ -20,7 +20,7 @@ public:
 			int x = c._position._x;
 			int y = c._position._y;
 
-			if (c._position == maze._end) return;
+			if (c._position == maze._end) return true;
 			if (maze._maze[y][x]._state == CLOSED) continue; // node can be in pq, but already closed, this happens if first found path wasn't the shortest
 
 			std::vector<Cord> neighbors = maze.getNexMoves(c._position);
@@ -29,6 +29,8 @@ public:
 
 			maze.drawMaze();
 		}
+
+		return false;
 	}
 
 
@@ -41,7 +43,7 @@ private:
 			int y = neighbors[i]._y;
 
 			if(maze._maze[y][x]._state == IN_PRORITY_QUEUE && maze._maze[y][x].getMinimunToEnd(maze._end) >= maze._maze[y][x]._minPossibleToEnd) continue; 
-			if(maze._maze[y][x]._state != IN_PRORITY_QUEUE) _nodesOpened++;
+			if(maze._maze[y][x]._state != IN_PRORITY_QUEUE && maze._maze[y][x]._state != END) _nodesOpened++;
 
 			maze._maze[y][x].changeState(IN_PRORITY_QUEUE);
 			maze._maze[y][x].setMinimunToEnd(maze._end);

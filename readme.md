@@ -1,6 +1,6 @@
-# Path finding algorithms
+# State space search
 
-Project implements and presents six path finding algoritmhs:
+Project implements and presents six state space search algoritmhs:
   - DFS
   - BFS
   - Dijkstra

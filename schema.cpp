@@ -43,7 +43,7 @@ public:
 	int _distanceFromStart = 0; // default 0 for algorithms not using it
 	int _minPossibleToEnd = 0; // default 0 for algorithms not using it
 
-	void print() { // todo refactor using << overload
+	void print() { 
 		if (_state == WALL) addch(WALL_CHAR | COLOR_PAIR(BLUE_PAIR));
 		if (_state == UNATTENDED) addch(UNATTENDED_CHAR | COLOR_PAIR(BLUE_PAIR));
 		if (_state == OPENED || _state == IN_PRORITY_QUEUE) addch(OPENED_CHAR | COLOR_PAIR(GREEN_PAIR));
@@ -71,14 +71,12 @@ public:
 	}
 
 	bool operator > (const Cell &other) const {
-		// TODO - is this ok? This condition should place heuristic as second option
 		if ((_distanceFromStart + _minPossibleToEnd) ==  (other._distanceFromStart + other._minPossibleToEnd)) return _distanceFromStart > other._distanceFromStart;
         return (_distanceFromStart + _minPossibleToEnd) > (other._distanceFromStart + other._minPossibleToEnd);
     }
 
 };
 
-// todo most likely this should be possible to implement as overload of > in cell class and than used in priorityQueue as default
 struct CompareCells { 
     bool operator()(Cell const& c1, Cell const& c2) { 
         return c1 > c2; 
@@ -102,7 +100,7 @@ public:
 
 	// reads maze into vector of strings given as parameter
 	// fills 2D vector of structs which'll be handy later
-	void readInput(std::istream &istream) { // TODO implement as >> overload
+	void readInput(std::istream &istream) {
 		std::string line;
 		bool start = true;
 		int y = 0;
@@ -147,7 +145,7 @@ public:
      	// getch(); // uncoment to pause program after every draw
 	}
 
-	void printFinal(int opened, int closed) {
+	void printFinal(int opened) {
 		Cord end = _end;
 		int length = 0;
 		while(!(_start == end)) {
@@ -161,7 +159,7 @@ public:
 		printw("---------------------------------------------\n");
 		printw("%c Start \n%c End \n%c Opened node \n%c Path \n%c Wall \nspace Fresh node\n", START_CHAR, END_CHAR, OPENED_CHAR, FINAL_CHAR, WALL_CHAR);
 		printw("---------------------------------------------\n");
-		printw("Nodes expanded: %d\nPath length: %d\n", opened + closed, length);
+		printw("Nodes expanded: %d\nPath length: %d\n", opened, length);
 		printw("---------------------------------------------\n");
 		printw("Press q to quit");
 	}
