@@ -14,4 +14,4 @@ Compile main.cpp with ncurses library linked: `$ g++ main.cpp -lncurses`
 
 Input is expected to be passed as parameter, run it like this: `$ ./a.out ./yourInput.txt` 
 
-If you wish to stop program after each iteration and see how it works step by step, go to schema.cpp and uncomment line 147.
+If you wish to stop program after each iteration and see how it works step by step, go to schema.cpp and uncomment line 149.
